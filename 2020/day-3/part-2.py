@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import sys
+from typing import List
 
-def count_trees_hit(x, y, step_x, step_y, maze):
+def count_trees_hit(x: int, y: int, step_x: int, step_y: int, maze: List[str]) -> int:
     height = len(maze)
     width = len(maze[0])
 
