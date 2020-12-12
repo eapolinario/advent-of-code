@@ -2,20 +2,23 @@
 
 import cmath
 import pytest
+from functools import reduce
 
 class Ship:
     def __init__(self, pos: complex, dir: complex):
         self.pos = pos
-        self.dir = dir
+        self.waypoint = dir
 
     def final_distance(self) -> int:
         return int(abs(ship.pos.real) + abs(ship.pos.imag))
 
     def __str__(self):
-        return f'pos={self.pos}, dir={self.dir}'
+        return f'pos={self.pos}, waypoinit={self.waypoint}'
 
-    def __eq__(self, other):
-        return self.pos == other.pos and self.dir == other.dir
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Ship):
+            return NotImplemented
+        return self.pos == other.pos and self.waypoint == other.waypoint
 
 class Instruction:
     def __init__(self, action: str, value: int):
@@ -34,29 +37,21 @@ def next_position(ship: Ship, instruction: Instruction) -> Ship:
     print(f'ship={ship}, instruction={instruction}')
     action = instruction.action
     if action == 'F':
-        return Ship(ship.pos + instruction.value * ship.dir, ship.dir)
+        return Ship(ship.pos + instruction.value * ship.waypoint, ship.waypoint)
     elif action == 'N':
-        return Ship(ship.pos, ship.dir + instruction.value * complex(0, 1))
+        return Ship(ship.pos, ship.waypoint + instruction.value * complex(0, 1))
     elif action == 'S':
-        return Ship(ship.pos, ship.dir + instruction.value * complex(0, -1))
+        return Ship(ship.pos, ship.waypoint + instruction.value * complex(0, -1))
     elif action == 'E':
-        return Ship(ship.pos, ship.dir + instruction.value * complex(1, 0))
+        return Ship(ship.pos, ship.waypoint + instruction.value * complex(1, 0))
     elif action == 'W':
-        return Ship(ship.pos, ship.dir + instruction.value * complex(-1, 0))
+        return Ship(ship.pos, ship.waypoint + instruction.value * complex(-1, 0))
     elif action == 'L':
         rotations = (instruction.value//90)%4
-        left = complex(0, 1)
-        for i in range(rotations - 1):
-            left *= complex(0, 1)
-        return Ship(ship.pos, ship.dir * left)
+        return Ship(ship.pos, ship.waypoint * reduce(lambda c1, c2: c1 * c2, rotations * [complex(0, 1)]))
     elif action == 'R':
         rotations = ( instruction.value//90 )%4
-        print(f'rotations={rotations}')
-        right = complex(0, -1)
-        for i in range(rotations - 1):
-            right *= complex(0, -1)
-        print(f'final right = {right}')
-        return Ship(ship.pos, ship.dir * right)
+        return Ship(ship.pos, ship.waypoint * reduce(lambda c1, c2: c1 * c2, rotations * [complex(0, -1)]))
     else:
         raise Exception('unreachable code')
 
