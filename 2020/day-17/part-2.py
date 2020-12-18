@@ -25,10 +25,7 @@ def active_neighbors(cubes, cube) -> int:
 def step(cubes):
     new_cubes = {}
     candidates = set(cubes)
-    for cube in cubes:
-        candidates.add(cube)
-        for neighbor in generate_neighbor_positions(cubes, cube):
-            candidates.add(neighbor)
+    [candidates.add(neighbor) for cube in cubes for neighbor in generate_neighbor_positions(cubes, cube)]
     for cube in candidates:
         n_active_neighbors = active_neighbors(cubes, cube)
         cube_v = cubes.get(cube, '.')
