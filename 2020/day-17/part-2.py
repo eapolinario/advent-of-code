@@ -45,9 +45,4 @@ if __name__ == '__main__':
     for _ in range(6):
         cubes = step(cubes)
 
-    active = 0
-    for cube in cubes:
-       if cubes[cube] == '#':
-           active += 1
-
-    print(f'total active = {active}')
+    print(f"total active = {sum(1 for cube_v in cubes.values() if cube_v == '#')}")
