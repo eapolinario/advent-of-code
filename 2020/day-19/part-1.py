@@ -21,24 +21,14 @@ def parse_rules(lines):
 
 def build_pattern(rules, i) -> str:
     regex = []
-    if i == '8':
-        return f"({build_pattern(rules, rules[i][0])})+"
-    elif i == '11':
-        p1 = build_pattern(rules, rules[i][0])
-        p2 = build_pattern(rules, rules[i][1])
-        # This feels dirty.
-        # I wish we had a simpler way to express recursion depth in a regex.
-        # I ended up simply using max depth 10, it was enough to solve my input.
-        return '(' + '|'.join(f'{p1}{{{n}}}{p2}{{{n}}}' for n in range(1, 10)) + ')'
-    else:
-        for sub_rule in rules[i]:
-            if sub_rule[0] == '"':
-                regex.append(sub_rule[1])
-            elif sub_rule == '|':
-                regex.append(sub_rule)
-            else:
-                regex.append(build_pattern(rules, sub_rule))
-        return f"({''.join(regex)})"
+    for sub_rule in rules[i]:
+        if sub_rule[0] == '"':
+            regex.append(sub_rule[1])
+        elif sub_rule == '|':
+            regex.append(sub_rule)
+        else:
+            regex.append(build_pattern(rules, sub_rule))
+    return f"({''.join(regex)})"
 
 @pytest.mark.parametrize('rules, i, expected_regex', [
     ({'0': ['1', '2'], '1': [ '"b"' ], '2': [ '"a"' ]}, '0', '((b)(a))'),
