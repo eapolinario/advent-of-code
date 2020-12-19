@@ -77,4 +77,4 @@ if __name__ == '__main__':
     for line in sys.stdin:
         lines.append(line.strip())
 
-    print(f'total sum or results = {sum(map(parse_and_compute, lines))}')
+    print(f'total sum = {sum(map(parse_and_compute, lines))}')
