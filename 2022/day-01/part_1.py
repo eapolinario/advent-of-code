@@ -13,7 +13,9 @@ def main():
             calories = []
     elves.append(calories)
 
-    print(max(map(sum, elves)))
+    summed_elves = list(map(sum, elves))
+    summed_elves.sort(reverse=True)
+    print(summed_elves[0] + summed_elves[1] + summed_elves[2])
 
 if __name__ == '__main__':
     raise SystemExit(main())
