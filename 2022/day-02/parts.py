@@ -49,14 +49,32 @@ def main():
         line = line.rstrip()
         plays.append(parse_line(line))
 
-    print(plays)
-
-    answer = 0
+    answer_part1 = 0
     for i, play in enumerate(plays):
-        answer += analyze_play(play)
-        print(answer)
+        answer_part1 += analyze_play(play)
 
-    print(answer)
+    print(f"answer part 1 is {answer_part1}")
+
+    answer_part2 = 0
+    results = {
+        # Lose
+        ('A', 'X'): ('A', 'Z'),
+        ('B', 'X'): ('B', 'X'),
+        ('C', 'X'): ('C', 'Y'),
+        # Draw
+        ('A', 'Y'): ('A', 'X'),
+        ('B', 'Y'): ('B', 'Y'),
+        ('C', 'Y'): ('C', 'Z'),
+        # Win
+        ('A', 'Z'): ('A', 'Y'),
+        ('B', 'Z'): ('B', 'Z'),
+        ('C', 'Z'): ('C', 'X'),
+    }
+    for i, play in enumerate(plays):
+        answer_part2 += analyze_play(results[play])
+        print(answer_part2)
+
+    print(f"answer for part 2 is {answer_part2}")
 
 
 
