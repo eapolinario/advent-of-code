@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 
 def parse_line(line):
     return line[:len(line) // 2], line[len(line) // 2:]
